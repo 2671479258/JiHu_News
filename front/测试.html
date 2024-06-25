@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="js/host.js"></script>
+    <script type="text/javascript" src="js/vue-2.5.16.js"></script>
+    <script type="text/javascript" src="js/axios-0.18.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    <style>
+        body {
+            background-image: url('images/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;  /* 添加这一行以去除默认的body外边距 */
+    padding: 0; /* 添加这一行以去除默认的body内边距 */
+        }
+
+
+
+          #loginPopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    z-index: 1001;
+    width: 350px; /* Adjust the width as needed */
+    height: 350px; /* Adjust the height as needed */
+}
+
+        #closeBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+            #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: 1000;
+         .custom-input {
+        margin-top: 39px;
+        margin-left: 74px;
+        font-size: 20px;
+        position: relative;
+    }
+
+
+    </style>
+</head>
+<body>
+<div id="overlay"></div>
+
+
+
+<h1><div style="text-align: center;margin-top: 80px" onclick="showLoginPopup()">登录</div></h1>
+
+
+
+<!--这段代码是要弹出的表单的样式-->
+<div id="loginPopup">
+    <div id="closeBtn" onclick="closeLoginPopup()">X</div>
+    <form @submit.prevent="on_submit">
+        <div style="font-size: 20px;">手机号登录</div>
+
+        <div style="margin-top: 39px;width: 300px;margin-left: 74px;"><input v-model="username" style="height:30px;border: white;background-color: #f8f8f8;" type="text" id="username" name="username" placeholder="请输入手机号" required><br></div>
+
+
+         <div style="margin-top: 30px;margin-left: 74px;font-size: 20px"><input v-model="password" style="height:30px;border: white;background-color: #f8f8f8;" type="text" id="password" name="password" placeholder="请输入密码" required><span style="font-size: 14px;margin-left: 20px"><a>忘记密码</a></span><br></div>
+
+<div style="margin-top: 64px; margin-left: 50px; height: 56px; background-color: #ffd100; width: 267px; line-height: 56px;">
+   <span style="margin-left: 106px; font-size: 17px; font-weight: bold; display: inline-block; position: relative; ">
+    <input type="submit" value="登录" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    登录
+</span>
+</div>
+
+    </form>
+
+</div>
+
+
+
+
+
+<!--&lt;!&ndash;展示和关闭表单的方法&ndash;&gt;-->
+<script>
+    function showLoginPopup() {
+        var overlay = document.getElementById("overlay");
+        var loginPopup = document.getElementById("loginPopup");
+
+        overlay.style.display = "block";
+        loginPopup.style.display = "block";
+    }
+
+    function closeLoginPopup() {
+        var overlay = document.getElementById("overlay");
+        var loginPopup = document.getElementById("loginPopup");
+        var usernameInput = document.getElementById("username");
+        var passwordInput = document.getElementById("password");
+
+        overlay.style.display = "none";
+        loginPopup.style.display = "none";
+
+        // 重置输入框
+        usernameInput.value = "";
+        passwordInput.value = "";
+    }
+</script>
+
+
+
+
+</body>
+</html>

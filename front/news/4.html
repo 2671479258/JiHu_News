@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/host.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/vue-2.5.16.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/axios-0.18.0.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/jquery-1.12.4.min.js"></script>
+    <style>
+         .yuntucao-link {
+            position: fixed;
+            bottom: 40px;
+            right: 20px;
+            z-index: 9999;
+        }
+        .logo-wrap {
+            cursor: pointer;
+            opacity: .9;
+            padding: 15px 10px 10px;
+            border-radius: 20px;
+            background: linear-gradient(-180deg, #dadfea, #ebedf5);
+        }
+        .logo {
+            width: 32px;
+            height: 28px;
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAcCAYAAAAAwr0iAAAABGdBTUEAALGPC/xhBQAAAqxJREFUSA21Vs9r1EAUfi/Z7bog1FU8KdWLv26ia1W0rApCD0qhdhdE8CdtL9WbBwX/gB48eShdqeJ1rb21KipbpSC9FARBoVIpiheVqkUQu+b5JWtKEjPJbNqdQ2bmvW++92XeZF6Y/rVypXoewwFi3iMi7NpXu2fiT8Q0njGz18517//qBCpXnt8SsgZWO1g0H3/IptJ58/bo5Gm88WA0uCne1pplbTLEoitNodcgxfZ3GkSyTwMLCC/h8YqZRQ+PFcTv8FxQ4YVkvQE2UwXw2Zkv95eO7gbhTZ9dOeGZdVTYmTbNfJRo7IBeMwxr3EYy1fu4Vcz0uFTiPxdPdcyR0FsVXluAZfFBm0So3qsIPXYHf29segM+6m0eu2/Iw5WqZk55AYfmmbCchIqMj0UxwRl4gjy3wb1DAaGUyvG/XXJQ2oPg2g3Bj8eBtVMQR5TU38AOBEIw4Ro1hljkh9djMe0ikQteW9Q4sQDkd6SvWLgRRl6+Xz0mQlvCfEFb4hTgQCo/LdSyN8FAqnliASLGnIoU9vcRPp8ruQAylEFAqvT5omOSUAAv9RUPfQySuXMxInfHhTl9IgHI/zzud8vH5Jng5mv2DkQHWJthfQF4k28e8VpDicnxmRMddgn+HkeGgjVvp+BhHDDoxx3wO2jzzicmZjMomzWvLXzMY3yn8mJjja0Z/JZtDgeFWZ2fk5cI8ivMi3qxHXVza6hv2civs625AzhPRMOVqTYIHsLWdmJhooO5zBs74C/4qXpgtqSvXuo6vOgIcNfcrVbXLH2mKQjZ69pwRhZRgs/mLHrq2lbSF4tHfoITIerNJ8A2lSuT0yij7Y6bedYwuau3u6B9tdZp9Z8R282PWlLS3szgtszQaojPY7C3p3A96rLRf8cGkSOj1XyDS1YE/wsT+LIWtt/NgQAAAABJRU5ErkJggg==) no-repeat 0;
+        }
+        .logo-wrap:hover {
+            background: #418dff;
+        }
+        .logo-wrap:hover .logo {
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAcCAYAAAAAwr0iAAAABGdBTUEAALGPC/xhBQAAAe1JREFUSA29ls8uA1EUxjsqYSOIsCGNjX8bkbDgITyAjfAA3oOFlQXxEHZNI9hJRCJWgoigwkr8j0TQjt9hppk77ZmZzmTmJF/vPd85Pefr3Om9N5dzzLbtBXAEqiBNu6f4Juhxe+dw1tLsqNS+he/L8zGHkpWamuwmnbTqtxBwwGQ6u75GpycR8AOVN+jGzjf0KRgHVuOUOvYSRta6uy7iEC2MUZpL+pJlWROMq+JEsGNyRsEUsLV8ERDVik6iO4Z9bxvBFXBF4rmW3IyAGaeIO2o1Xf4vjyWWJRhySf8o74D6eHzJz/h7YBa0+WKau0OgAEa0hGYEaDUS8c0sQaJG2pdbtUAE/pGcdfDmyx3DX/RxuivvQExTd0/q3UStmWQJ1L8WP/dM/8lmJIkA+X9rdq0F/HwSAUFNgmKGhrgC5Fy4MyqZTtDTMTLjCiizxVaNSqaT+hMIaxAWr8mVJ/BS86JPAhvwdGTbfo1QriwCShES/SlffsLrswfIWSH3jDDbkrOglyw5uwfCsj1xeQnlJvXp4bzTYZxBL9FgfgL3fxNDRAEUQQWkbQ802AAdIsq4WkG2w+2DSQk69s44D3ZdIuH4wTtiqzUQcQhcu2Aih0t2RkNXQIl5V3adnU6OgGXGuJtUMs00lltsZvYLUPxHqiXJxFUAAAAASUVORK5CYII=) no-repeat 0;
+        }
+        .yuntucao-link:hover .tips-wrap {
+            display: block;
+            background: #418dff;
+        }
+        .tips-wrap {
+            position: relative;
+            display: none;
+        }
+        .tips {
+            width: 86px;
+            height: 32px;
+            background: #4e4e4e;
+            border-radius: 4px;
+            position: absolute;
+            left: -98px;
+            top: -44px;
+            color:#fff;
+            text-align: center;
+            line-height: 32px;
+            font-size: 14px;
+        }
+
+        .tips:after {
+            content: " ";
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 6px solid #4e4e4e;
+            position: absolute;
+            right: -6px;
+            top: 10px;
+        }
+
+        body {
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;  /* 添加这一行以去除默认的body外边距 */
+    padding: 0; /* 添加这一行以去除默认的body内边距 */
+        }
+
+
+        #loginPopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    z-index: 1001;
+    width: 350px; /* Adjust the width as needed */
+    height: 350px; /* Adjust the height as needed */
+}
+
+        #closeBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        #block {
+            width: 1200px;
+            height: 220px;
+            background-color: white;
+            margin-left: 152px;
+            margin-top: 80px;
+            margin-bottom: 0
+        }
+        #block2 {
+            width: 1200px;
+            height: 300px;
+            background-color: white;
+            margin-left: 152px;
+            margin-top: 0;
+             border-top: 1px solid black; /* 设置上边框为1像素的黑色边框 */
+
+
+        }
+
+        .big-god {
+            position: relative;
+        }
+
+        .god-mark {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #000;
+            color: #fff;
+            padding: 5px;
+        }
+        a {
+            text-decoration: none; /* 去掉下划线 */
+            color: inherit; /* 继承父元素的颜色，如果有的话 */
+        }
+
+        /* 可选：定义悬停时的样式 */
+        a:hover {
+            text-decoration: underline; /* 鼠标悬停时显示下划线 */
+        }
+
+        #top-bar {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            height: 48px;
+            position: fixed;
+            top: 0;
+            z-index: 1000; /* 保证位于其他元素之上 */
+        }
+ #moreContainer {
+        position: relative;
+    }
+
+    #moreHover {
+        display: none;
+        position: absolute;
+        top: 20px; /* Adjust the top position as needed */
+        left: -50px;
+        background-color: white;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+        z-index: 1;
+        width: 250px;
+        height:100px
+    }
+    #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: 1000;
+         .custom-input {
+        margin-top: 39px;
+        margin-left: 74px;
+        font-size: 20px;
+        position: relative;
+    }
+
+    .custom-input input {
+        width: 300px; /* Adjust the width as needed */
+        padding: 10px; /* Adjust the padding as needed */
+        font-size: 16px; /* Adjust the font size as needed */
+        border: none; /* Remove the border */
+        border-radius: 5px;
+        background-color: #f5f5f5; /* Set a light gray background color */
+    }
+
+
+    </style>
+</head>
+
+<body>
+<div id="overlay"></div>
+<div>
+<div id="top-bar">
+    <div style="display: flex;flex-direction: row">
+        <a href="http://127.0.0.1:8080/index.html"><img src="http://127.0.0.1:8080/images/logo.png" style="width: 72px;height: 48px;margin-left: 142px"></a>
+        <div style="display: flex;flex-direction: row;font-size: 22px;margin-top: 10px;, sans-serif; font-weight: bold;">
+    <div style="margin-left: 24px;">新闻</div>
+            <div style="margin-left: 24px;"><a href="#"> 体育</a></div>
+            <div style="margin-left: 24px;"><a href="#">新闻</a></div>
+            <div style="margin-left: 24px;"><a href="#">汽车</a></div>
+            <div style="margin-left: 24px;"><a href="#">房产</a></div>
+            <div style="margin-left: 24px;"><a href="#">旅游</a></div>
+            <div style="margin-left: 24px;"><a href="#">教育</a></div>
+            <div style="margin-left: 24px;"><a href="#">时尚</a></div>
+            <div style="margin-left: 24px;"><a href="#">科技</a></div>
+            <div style="margin-left: 24px;"><a href="#">财经</a></div>
+            <div style="margin-left: 24px;"><a href="#">母婴</a></div>
+
+
+           <div id="moreContainer">
+    <div id="moreHover" onmouseover="showMoreContent()" onmouseout="hideMoreContent()">
+        <span style="font-size: 18px; color: black;"><a href="#"> 健康</a></span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">历史</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">军事</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">美食</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">文化</span><br>
+        <span style="font-size: 18px; color: black;">星座</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">专题</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">游戏</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">搞笑</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">动漫</span><br>
+        <span style="font-size: 18px; color: black;">宠物</span>
+
+    </div>
+    <div style="margin-top: 0; margin-left: 28px;" onmouseover="showMoreContent()" onmouseout="hideMoreContent()">更多</div>
+</div>
+
+<script>
+    function showMoreContent() {
+        var moreHover = document.getElementById("moreHover");
+        moreHover.style.display = "block";
+    }
+
+    function hideMoreContent() {
+        var moreHover = document.getElementById("moreHover");
+        moreHover.style.display = "none";
+    }
+</script>
+            <div id="app2">
+            <div v-if="username" style="font-size: 18px;margin-top: 4px;margin-left: 55px" >
+			<em>[[ username ]]</em>
+					<a @click="logoutfunc" class="quit">退出</a>
+				</div>
+            <div v-else style="margin-left: 150px;"><div onclick="showLoginPopup()">登录</div></div>
+                </div>
+</div>
+
+
+</div>
+
+
+
+
+
+</div>
+  <div id="app">
+<div id="loginPopup">
+    <div id="closeBtn" onclick="closeLoginPopup()">X</div>
+    <!-- Your login form goes here -->
+    <form @submit.prevent="on_submit">
+        <div style="font-size: 20px;">手机号登录</div>
+
+        <div style="margin-top: 39px;width: 300px;margin-left: 74px;"><input v-model="username" style="height:30px;border: white;background-color: #f8f8f8;" type="text" id="username" name="username" placeholder="请输入手机号" required><br></div>
+
+
+         <div style="margin-top: 30px;margin-left: 74px;font-size: 20px"><input v-model="password" style="height:30px;border: white;background-color: #f8f8f8;" type="text" id="password" name="password" placeholder="请输入密码" required><span style="font-size: 14px;margin-left: 20px"><a>忘记密码</a></span><br></div>
+
+<div style="margin-top: 64px; margin-left: 50px; height: 56px; background-color: #ffd100; width: 267px; line-height: 56px;">
+   <span style="margin-left: 106px; font-size: 17px; font-weight: bold; display: inline-block; position: relative; ">
+    <input type="submit" value="登录" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    登录
+</span>
+</div>
+    </form>
+</div>
+
+
+</div>
+    </div>
+<script>
+    function showLoginPopup() {
+        var overlay = document.getElementById("overlay");
+        var loginPopup = document.getElementById("loginPopup");
+
+        overlay.style.display = "block";
+        loginPopup.style.display = "block";
+    }
+
+    function closeLoginPopup() {
+        var overlay = document.getElementById("overlay");
+        var loginPopup = document.getElementById("loginPopup");
+        var usernameInput = document.getElementById("username");
+        var passwordInput = document.getElementById("password");
+
+        overlay.style.display = "none";
+        loginPopup.style.display = "none";
+
+        // 重置输入框
+        usernameInput.value = "";
+        passwordInput.value = "";
+    }
+</script>
+
+
+<div id='app3' style="display:flex;flex-direction: row;">
+
+        <div style="position: relative; margin-top: 80px; width: 350px; height: 500px;">
+    <div style="position: fixed; left: 0; top: calc(80px + 169px);margin-left: 147px;">
+        <div style="display: flex;flex-direction: row">
+        <div><img src="http://127.0.0.1:8080/images/icon/wx.png"></div>
+            <a><div style="margin-left: 6px;margin-top: 1px">微信分享</div></a>
+        </div>
+
+        <div style="display: flex;flex-direction: row;margin-top: 10px">
+        <div><img src="http://127.0.0.1:8080/images/icon/wb.png"></div>
+            <a><div style="margin-left: 6px;margin-top: 1px">新浪微博</div></a>
+        </div>
+
+         <div style="display: flex;flex-direction: row;margin-top: 10px">
+        <div><img src="http://127.0.0.1:8080/images/icon/qq.png"></div>
+            <a><div style="margin-left: 6px;margin-top: 1px">QQ空间</div></a>
+        </div>
+
+         <div style="display: flex;flex-direction: row;margin-top: 10px">
+        <div><img src="http://127.0.0.1:8080/images/icon/lj.png"></div>
+            <a><div style="margin-left: 6px;margin-top: 1px">复制链接</div></a>
+        </div>
+
+        <div style="display: flex;flex-direction: column;margin-top: 25px;">
+            <div style="margin-left: 5px;"><img src="http://127.0.0.1:8080/images/icon/sm.png"></div>
+            <div style="margin-top: 5px;font-size: 12px;margin-left: -4px;">扫码打开手机搜狐网</div>
+            <div style="margin-top: 5px;font-size: 12px;margin-left: 11px;color: #999;">无需下载app</div>
+            <div style="margin-top: 5px;font-size: 12px;margin-left: 1px;color:#999;">精彩内容随时看</div>
+        </div>
+
+
+    </div>
+</div>
+
+<div style="display:flex;flex-direction:column;margin-top: 80px;margin-left:30px;height: auto;width: 650px;background-color: white">
+    <div style="display: flex;flex-direction: column"></div>
+        <div style="height: 100px;background-color: white">
+            <h1> 洗车店为6名唐氏综合征患者提供就业</h1>
+        </div>
+        <div style="height: 50px;background-color: white">
+            <div style="margin-top: 14px;color: #999">March 12, 2024&nbsp&nbsp&nbsp来源: 极目新闻&nbsp&nbsp&nbsp发布于：四川省</div>
+        </div>
+
+        <div style="height:600px;margin-top: 15px;background-color: white">
+            <div style="font-size: 17px;font-weight: bold;">
+          <div>近日，江苏省南通市一家洗车店为6名唐氏综合征患者提供就业引网友点赞。工作人员表示，他们的心智只有七八岁，教会后干活很卖力。（据河南商报3月6日视频报道）<br><br></div>
+            </div>
+
+            <div>
+         <div><img src="http://127.0.0.1:8080/images/news/4/4.1.jpeg" style="width: 650px; height: 451px; margin-top: 48px;"> </div>
+           <div style="margin-top: 5px">季辉与“唐宝宝”员工（图源：人民日报健康客户端）</div>
+                </div>
+
+
+
+    <div style="font-size: 17px;font-weight: bold;margin-top: 25px;">
+        <div>春节前，人民日报健康客户端对此曾进行过报道。据了解，开这家洗车店的，是退役国家举重运动员季辉。他告诉记者：“我开洗车店是想为唐氏综合征患者提供就业机会，让他们能够融入社会，我们彼此帮助、彼此温暖。”
+<br><br>资料显示，唐氏综合征是由染色体畸变引起的一种疾病，主要临床特征是智能落后、特殊面容和生长发育迟缓等，医学上目前无法治愈，避免的办法就是产前检查。因为心智发育迟缓，他们被人们称为“唐宝宝”，每年3月21日是世界唐氏综合征日。
+<br><br>季辉所言的“让他们融入社会”，有着特别的含义。对社会来说，就是要主动接纳和尊重他们，不能歧视他们。更重要之处在于，让他们能有一份工作，保持一定的人际交往能力，同时能养活自己。</div>
+    </div>
+
+
+        
+              <div>
+
+            <div><img src="http://127.0.0.1:8080/images/news/4/4.2.jpeg" style="width: 650px;height: 451px;margin-top: 48px;"> </div>
+           <div style="margin-top: 5px">相关视频截图</div>
+                </div>
+
+
+         
+            <div style="font-size: 17px;font-weight: bold;margin-top: 25px;">
+ <div>不必讳言，当前，他们融入社会的力度还远远不够。当然，这是多方面的因素造成的。一方面，有的家庭对“唐宝宝”就业有顾虑，怕他们受歧视，遭遇特殊对待。另一方面，则是社会提供的就业机会还是太少。
+<br><br>有专家表示，在中国目前每800个新生儿中就有一个“唐宝宝”，这是一个很大的群体，他们成年后大多面临着就业难题。事实上，通过适当培训和指导，他们也能走上工作岗位，像正常人一样追求美好生活。专家还称，大部分“唐宝宝”都有独立意愿和独立能力，他们比正常人更珍惜工作机会，并且他们很擅长类似超市理货、流水线等劳动重复性较高的工作。
+<br><br>就是说，社会上能给他们提供的就业机会并不少，而他们也有意愿走上工作岗位。对于有“唐宝宝”的家庭来说，如果就业条件和待遇不错，“唐宝宝”也不受歧视，能让人放心，他们当然乐于让“唐宝宝”融入社会。
+<br><br>“唐宝宝”的就业，对家庭来说事关重大。季辉温暖的不仅是“唐宝宝”，而是6个家庭和全社会。所以，不少网友认为季辉是在做好事和善事，从而为他点赞，同时呼吁全社会来关心“唐宝宝”。
+<br><br>退役举重运动员“跨界”开洗车店，与唐氏综合征患者“彼此帮助和彼此温暖”就让人想到，如果每个人、每个机构都尽一份力，就能给残障人士多一些温暖和希望。所以，全社会对季辉的洗车店，都应该多一份关注，除了支持他们的洗车业务、对他们多包容理解之外，相关职能部门要把支持残障人士的政策用足，让他们能享受到相关的福利待遇，让他们能感受到国家和社会的温暖，这样也容易形成示范效应。
+<br><br>同时，有关部门对“唐宝宝”的工作条件和待遇等要时刻保持关注，及时维护他们的合法权益。只有这样，才能让“唐宝宝”愿意走出家门奔赴职场，能干得了，干得久，干得开心。</div>
+            </div>
+        
+
+           
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+        </div>
+    </div>
+
+
+
+    <div style="margin-top: -64px;margin-left:30px;width: 450px;height: 500px;background-color: greenyellow">
+
+<div style="display: flex;flex-direction: row;background-color: white">
+<div style="width: 355px;height: 1000px;background-color: white;margin-top: 168px;margin-left: 30px">
+    <div style="width: 150px;display: flex;flex-direction: row;">
+    <div><input type="text" style="width: 224px; padding: 8px; font-size: 18px; border: 1px solid #ccc; border-radius: 5px;" placeholder="搜索..."></div>
+       <div style="background-color: #fdd000;width: 50px;height: 40px"> <a href="#"> <img src="http://127.0.0.1:8080/images/search.png" style="width: 37px;height: 25px;margin-top: 5px;margin-left: 2px;"></a></div>
+</div>
+            <div style="margin-top:102px;display: flex;flex-direction: column;height: 350px;border-top: 1px solid black;background-color: white;">
+
+        <div style="display: flex;flex-direction: row; ">
+            <div style="font-size: 22px;margin-top: 5px;font-weight: bold;">最新新闻</div>
+            <div style="margin-top: 5px;"><a href="#" style="font-size: 14px;margin-left: 194px">更多</a> </div>
+</div>
+            <div style="position: relative;">
+                <img src="http://127.0.0.1:8080/images/n10.jpeg" style="width: 300px; height: 170px;" alt="图片">
+                 <div style="position: absolute;bottom: 0;text-align: center; width: 280px; padding: 10px; background-color: rgba(255, 255, 255, 0.7);">
+        <p style="margin: 0; font-weight: bold; font-size: 13px;">广州交警：一小汽车先后与行人和电动自行车发生碰撞 致11人受伤</p>
+        </div>
+            </div>
+              <div style="display: flex;flex-direction: column;">
+    <div style="display: flex;flex-direction: row;margin-top: 10px">
+        <img style="width: 140px; height: 80px;" src="http://127.0.0.1:8080/images/n9.jpeg">
+        <span style="width: 166px;margin-left: 5px;font-size: 15px">又打压？印度再给中国手机厂商提苛刻要求，宣称缓解冲突要做好“三件事”</span>
+
+    </div>
+
+    <div style="display: flex;flex-direction: row;margin-top: 15px;">
+        <img style="width: 140px; height: 80px;" src="http://127.0.0.1:8080/images/n8.jpeg">
+        <span style="width: 166px;margin-left: 5px;font-size: 15px">钟薛高及其创始人被限制高消费，钟薛高此前被强制执行81万余元</span>
+    </div>
+ <div style="display: flex;flex-direction: row;margin-top: 15px;">
+        <img style="width: 140px; height: 80px;" src="http://127.0.0.1:8080/images/n7.jpeg">
+        <span style="width: 166px;margin-left: 5px;font-size: 15px">德媒：俄军缴获德制“豹”-2坦克</span>
+    </div>
+
+                  <div style="display: flex;flex-direction: row;margin-top: 15px;">
+        <img style="width: 140px; height: 80px;" src="http://127.0.0.1:8080/images/n6.jpeg">
+        <span style="width: 166px;margin-left: 5px;font-size: 15px">中学生背锅带碗去河边春游 引一波回忆杀</span>
+    </div>
+
+
+    <div style="display: flex;flex-direction: row;margin-top: 15px;">
+        <img style="width: 140px; height: 80px;" src="http://127.0.0.1:8080/images/n5.jpg">
+        <span style="width: 166px;margin-left: 5px;font-size: 15px">新能源汽车出海,后市场常拖后腿</span>
+    </div>
+
+
+
+
+
+
+</div>
+
+
+        </div>
+        </div>
+</div>
+
+
+</div>
+</div>
+
+<div class="yuntucao-link">
+  <a href="https://www.qqmu.com">
+    <div class="logo-wrap">
+      <div class="logo"></div>
+    </div>
+  </a>
+  <div class="tips-wrap fade-in">
+    <div class="tips"><span>意见反馈</span></div>
+  </div>
+</div>
+
+
+
+
+
+
+   <script type="text/javascript" src="http://127.0.0.1:8080/js/login.js"></script>
+   <script type="text/javascript" src="http://127.0.0.1:8080/js/success.js"></script>
+<script type="text/javascript" src="http://127.0.0.1:8080/js/news.js"></script>
+
+</body>
+</html>

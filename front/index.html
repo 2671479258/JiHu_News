@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="js/host.js"></script>
+    <script type="text/javascript" src="js/vue-2.5.16.js"></script>
+    <script type="text/javascript" src="js/axios-0.18.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    <style>
+
+
+.item img {
+    max-width: 100%; /* 图片宽度最大不超过容器宽度 */
+    height: auto; /* 图片高度自适应 */
+}
+        .yuntucao-link {
+            position: fixed;
+            bottom: 40px;
+            right: 20px;
+            z-index: 9999;
+        }
+        .logo-wrap {
+            cursor: pointer;
+            opacity: .9;
+            padding: 15px 10px 10px;
+            border-radius: 20px;
+            background: linear-gradient(-180deg, #dadfea, #ebedf5);
+        }
+        .logo {
+            width: 32px;
+            height: 28px;
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAcCAYAAAAAwr0iAAAABGdBTUEAALGPC/xhBQAAAqxJREFUSA21Vs9r1EAUfi/Z7bog1FU8KdWLv26ia1W0rApCD0qhdhdE8CdtL9WbBwX/gB48eShdqeJ1rb21KipbpSC9FARBoVIpiheVqkUQu+b5JWtKEjPJbNqdQ2bmvW++92XeZF6Y/rVypXoewwFi3iMi7NpXu2fiT8Q0njGz18517//qBCpXnt8SsgZWO1g0H3/IptJ58/bo5Gm88WA0uCne1pplbTLEoitNodcgxfZ3GkSyTwMLCC/h8YqZRQ+PFcTv8FxQ4YVkvQE2UwXw2Zkv95eO7gbhTZ9dOeGZdVTYmTbNfJRo7IBeMwxr3EYy1fu4Vcz0uFTiPxdPdcyR0FsVXluAZfFBm0So3qsIPXYHf29segM+6m0eu2/Iw5WqZk55AYfmmbCchIqMj0UxwRl4gjy3wb1DAaGUyvG/XXJQ2oPg2g3Bj8eBtVMQR5TU38AOBEIw4Ro1hljkh9djMe0ikQteW9Q4sQDkd6SvWLgRRl6+Xz0mQlvCfEFb4hTgQCo/LdSyN8FAqnliASLGnIoU9vcRPp8ruQAylEFAqvT5omOSUAAv9RUPfQySuXMxInfHhTl9IgHI/zzud8vH5Jng5mv2DkQHWJthfQF4k28e8VpDicnxmRMddgn+HkeGgjVvp+BhHDDoxx3wO2jzzicmZjMomzWvLXzMY3yn8mJjja0Z/JZtDgeFWZ2fk5cI8ivMi3qxHXVza6hv2civs625AzhPRMOVqTYIHsLWdmJhooO5zBs74C/4qXpgtqSvXuo6vOgIcNfcrVbXLH2mKQjZ69pwRhZRgs/mLHrq2lbSF4tHfoITIerNJ8A2lSuT0yij7Y6bedYwuau3u6B9tdZp9Z8R282PWlLS3szgtszQaojPY7C3p3A96rLRf8cGkSOj1XyDS1YE/wsT+LIWtt/NgQAAAABJRU5ErkJggg==) no-repeat 0;
+        }
+        .logo-wrap:hover {
+            background: #418dff;
+        }
+        .logo-wrap:hover .logo {
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAcCAYAAAAAwr0iAAAABGdBTUEAALGPC/xhBQAAAe1JREFUSA29ls8uA1EUxjsqYSOIsCGNjX8bkbDgITyAjfAA3oOFlQXxEHZNI9hJRCJWgoigwkr8j0TQjt9hppk77ZmZzmTmJF/vPd85Pefr3Om9N5dzzLbtBXAEqiBNu6f4Juhxe+dw1tLsqNS+he/L8zGHkpWamuwmnbTqtxBwwGQ6u75GpycR8AOVN+jGzjf0KRgHVuOUOvYSRta6uy7iEC2MUZpL+pJlWROMq+JEsGNyRsEUsLV8ERDVik6iO4Z9bxvBFXBF4rmW3IyAGaeIO2o1Xf4vjyWWJRhySf8o74D6eHzJz/h7YBa0+WKau0OgAEa0hGYEaDUS8c0sQaJG2pdbtUAE/pGcdfDmyx3DX/RxuivvQExTd0/q3UStmWQJ1L8WP/dM/8lmJIkA+X9rdq0F/HwSAUFNgmKGhrgC5Fy4MyqZTtDTMTLjCiizxVaNSqaT+hMIaxAWr8mVJ/BS86JPAhvwdGTbfo1QriwCShES/SlffsLrswfIWSH3jDDbkrOglyw5uwfCsj1xeQnlJvXp4bzTYZxBL9FgfgL3fxNDRAEUQQWkbQ802AAdIsq4WkG2w+2DSQk69s44D3ZdIuH4wTtiqzUQcQhcu2Aih0t2RkNXQIl5V3adnU6OgGXGuJtUMs00lltsZvYLUPxHqiXJxFUAAAAASUVORK5CYII=) no-repeat 0;
+        }
+        .yuntucao-link:hover .tips-wrap {
+            display: block;
+            background: #418dff;
+        }
+        .tips-wrap {
+            position: relative;
+            display: none;
+        }
+        .tips {
+            width: 86px;
+            height: 32px;
+            background: #4e4e4e;
+            border-radius: 4px;
+            position: absolute;
+            left: -98px;
+            top: -44px;
+            color:#fff;
+            text-align: center;
+            line-height: 32px;
+            font-size: 14px;
+        }
+
+        .tips:after {
+            content: " ";
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 6px solid #4e4e4e;
+            position: absolute;
+            right: -6px;
+            top: 10px;
+        }
+        #choose {
+            font-family: 'Microsoft YaHei', sans-serif; /* 为了跨浏览器兼容，可以提供备选字体 */
+            font-weight: bold;
+
+
+        }
+        body {
+            background-image: url('images/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;  /* 添加这一行以去除默认的body外边距 */
+    padding: 0; /* 添加这一行以去除默认的body内边距 */
+        }
+
+
+        #loginPopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    z-index: 1001;
+    width: 350px; /* Adjust the width as needed */
+    height: 350px; /* Adjust the height as needed */
+}
+
+        #closeBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        #block {
+            width: 1200px;
+            height: 220px;
+            background-color: white;
+            margin-left: 152px;
+            margin-top: 80px;
+            margin-bottom: 0
+        }
+        #block2 {
+            width: 1200px;
+            height: 300px;
+            background-color: white;
+            margin-left: 152px;
+            margin-top: 0;
+             border-top: 1px solid black; /* 设置上边框为1像素的黑色边框 */
+
+
+        }
+
+        .big-god {
+            position: relative;
+        }
+
+        .god-mark {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #000;
+            color: #fff;
+            padding: 5px;
+        }
+        a {
+            text-decoration: none; /* 去掉下划线 */
+            color: inherit; /* 继承父元素的颜色，如果有的话 */
+        }
+
+
+        .a{
+
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background-color: #2f3640;
+            height: 40px;
+            border-radius: 40px;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        .a:hover .b{
+            width: 200px;
+            padding: 0 6px;
+        }
+        .a:hover .c{
+            background-color: wheat;
+        }
+        .b{
+            border: none;
+            background: none;
+            /* 取消选中搜索框时的外边框 */
+            outline: none;
+            width: 0;
+            padding: 0;
+            transition: .4s;
+            line-height: 40px;
+            font-size: 27px;
+            color: wheat;
+            margin-top: -5px;
+
+        }
+        .c{
+            color: #e94118;
+            float: right;
+            top: 0;
+             right: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #2f3640;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: .4s;
+        }
+
+        /* 可选：定义悬停时的样式 */
+        a:hover {
+            text-decoration: underline; /* 鼠标悬停时显示下划线 */
+        }
+
+        #top-bar {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            height: 48px;
+            position: fixed;
+            top: 0;
+            z-index: 1000; /* 保证位于其他元素之上 */
+        }
+ #moreContainer {
+        position: relative;
+    }
+
+    #moreHover {
+        display: none;
+        position: absolute;
+        top: 20px; /* Adjust the top position as needed */
+        left: -50px;
+        background-color: white;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+        z-index: 1;
+        width: 250px;
+        height:100px
+    }
+    #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: 1000;
+         .custom-input {
+        margin-top: 39px;
+        margin-left: 74px;
+        font-size: 20px;
+        position: relative;
+    }
+
+    .custom-input input {
+        width: 300px; /* Adjust the width as needed */
+        padding: 10px; /* Adjust the padding as needed */
+        font-size: 16px; /* Adjust the font size as needed */
+        border: none; /* Remove the border */
+        border-radius: 5px;
+        background-color: #f5f5f5; /* Set a light gray background color */
+    }
+
+
+    </style>
+</head>
+<body>
+<div id="overlay"></div>
+<div>
+
+<div id="top-bar">
+    <div style="display: flex;flex-direction: row">
+        <a href="http://127.0.0.1:8080/index.html"><img src="images/logo.png" style="width: 72px;height: 48px;margin-left: 142px"></a>
+        <div style="display: flex;flex-direction: row;font-size: 22px;margin-top: 10px;, sans-serif; font-weight: bold;">
+    <div style="margin-left: 24px;"><a href="#"> 新闻</a></div>
+            <div style="margin-left: 24px;"><a href="#"> 体育</a></div>
+            <div style="margin-left: 24px;"><a href="#">新闻</a></div>
+            <div style="margin-left: 24px;"><a href="#">汽车</a></div>
+            <div style="margin-left: 24px;"><a href="#">房产</a></div>
+            <div style="margin-left: 24px;"><a href="#">旅游</a></div>
+            <div style="margin-left: 24px;"><a href="#">教育</a></div>
+            <div style="margin-left: 24px;"><a href="#">时尚</a></div>
+            <div style="margin-left: 24px;"><a href="#">科技</a></div>
+            <div style="margin-left: 24px;"><a href="#">财经</a></div>
+            <div style="margin-left: 24px;"><a href="#">母婴</a></div>
+
+
+           <div id="moreContainer">
+    <div id="moreHover" onmouseover="showMoreContent()" onmouseout="hideMoreContent()">
+        <span style="font-size: 18px; color: black;"><a href="#"> 健康</a></span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">历史</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">军事</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">美食</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">文化</span><br>
+        <span style="font-size: 18px; color: black;">星座</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">专题</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">游戏</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">搞笑</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">动漫</span><br>
+        <span style="font-size: 18px; color: black;">宠物</span>
+
+    </div>
+    <div style="margin-top: 0; margin-left: 28px;" onmouseover="showMoreContent()" onmouseout="hideMoreContent()">更多</div>
+</div>
+
+<script>
+    function showMoreContent() {
+        var moreHover = document.getElementById("moreHover");
+        moreHover.style.display = "block";
+    }
+
+    function hideMoreContent() {
+        var moreHover = document.getElementById("moreHover");
+        moreHover.style.display = "none";
+    }
+</script>
+            <div id="app2">
+            <div v-if="username" style="font-size: 18px;margin-top: -2px;margin-left: 55px;display: flex;flex-direction: row" >
+            <div style="margin-top: -8px;"><a href="user_info.html"><img v-if="profileUrl" :src="profileUrl" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%;"></a></div>
+			<div style="margin-top: 5px;margin-left: 5px;font-size: 20px;"><em>[[ username ]]</em></div>
+					<div style="margin-top: 5px;margin-left: 5px;font-size: 20px;"><a @click="logoutfunc" class="quit">退出</a></div>
+				</div>
+            <div v-else style="margin-left: 150px;"><div onclick="showLoginPopup()">登录</div></div>
+                </div>
+</div>
+
+
+</div>
+
+
+
+
+
+</div>
+  <div id="app">
+<div id="loginPopup">
+    <div id="closeBtn" onclick="closeLoginPopup()">X</div>
+    <!-- Your login form goes here -->
+    <form @submit.prevent="on_submit">
+        <div style="font-size: 20px;">手机号登录</div>
+
+        <div style="margin-top: 39px;width: 300px;margin-left: 74px;"><input v-model="username" style="height:30px;border: white;background-color: #f8f8f8;" type="text" id="username" name="username" placeholder="请输入手机号" required><br></div>
+
+
+         <div style="margin-top: 30px;margin-left: 74px;font-size: 20px"><input v-model="password" style="height:30px;border: white;background-color: #f8f8f8;" type="text" id="password" name="password" placeholder="请输入密码" required><span style="font-size: 14px;margin-left: 20px"><a>忘记密码</a></span><br></div>
+
+<div style="margin-top: 64px; margin-left: 50px; height: 56px; background-color: #ffd100; width: 267px; line-height: 56px;">
+   <span style="margin-left: 106px; font-size: 17px; font-weight: bold; display: inline-block; position: relative; ">
+    <input type="submit" value="登录" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    登录
+</span>
+</div>
+    </form>
+</div>
+
+
+</div>
+    </div>
+<script>
+    function showLoginPopup() {
+        var overlay = document.getElementById("overlay");
+        var loginPopup = document.getElementById("loginPopup");
+
+        overlay.style.display = "block";
+        loginPopup.style.display = "block";
+    }
+
+    function closeLoginPopup() {
+        var overlay = document.getElementById("overlay");
+        var loginPopup = document.getElementById("loginPopup");
+        var usernameInput = document.getElementById("username");
+        var passwordInput = document.getElementById("password");
+
+        overlay.style.display = "none";
+        loginPopup.style.display = "none";
+
+        // 重置输入框
+        usernameInput.value = "";
+        passwordInput.value = "";
+    }
+</script>
+
+
+    <div id="block">
+        <div class="big-god">
+            <img src="images/GG1.jpg" width="100%">
+            <span class="god-mark">广告</span>
+        </div>
+        <div style="display: flex;flex-direction: row;">
+           <div><img style="margin-left:15px;margin-top:8px;width: 177px; height: 95px;" src="images/news.jpg"></div>
+<!--            <div style="margin-top: 16px;font-size: 42px;color: blue;font-family: 'Microsoft YaHei', sans-serif; /* 为了跨浏览器兼容，可以提供备选字体 */-->
+<!--            font-weight: bold;">新闻</div>-->
+            <div class="search_wrap fl">
+    <form method="get" action="/search.html" class="search_con">
+        <div style="margin-top: 57px; margin-left: 620px;  position: absolute;">
+            <div class="a">
+                <input type="text" class="b" name="q" id="searchInput" placeholder="搜索新闻">
+                <input type="submit" href="#" class="c" id="searchBtn" style="opacity: 0;position: absolute;">
+
+                    <img src="http://127.0.0.1:8080/images/icon/%E6%90%9C%E7%B4%A2%E6%A1%86.png" style="width: 30px;margin-top: 5px;margin-left: -3px;">
+                </input>
+            </div>
+        </div>
+    </form>
+</div>
+            <div style="display: flex;flex-direction: row;width: 250px;margin-left: 800px;">
+            <div style="margin-top: 41px;"><img style="width: 41px; height: 42px;" src="images/y1.png"> </div>
+           <div style="margin-top: 38px;margin-left: 20px;"><img style="width: 41px; height: 42px;" src="images/y2.png"></div>
+</div>
+    </div>
+    </div>
+<div id="block2">
+<div id='choose' style="display: flex;flex-direction: row;margin-top: 15px;margin-left: 15px">
+    <div style="font-weight: bold;font-size: 20px">首页</div>
+    <div style="font-weight: bold;font-size: 20px;margin-left: 33px"><a href="#">时政</a></div>
+<div style="font-weight: bold;font-size: 20px;margin-left: 33px"><a href="#">国际</a></div>
+    <div style="font-weight: bold;font-size: 20px;margin-left: 33px"><a href="#">军事</a></div>
+    <div style="font-weight: bold;font-size: 20px;margin-left: 33px"><a href="#">警法</a></div>
+    <div style="font-weight: bold;font-size: 20px;margin-left: 33px"><a href="#">专题</a></div>
+    <div style="font-weight: bold;font-size: 20px;margin-left: 33px"><a href="#">公益</a></div>
+    <div style="font-weight: bold;font-size: 20px;margin-left: 33px"><a href="#">无人机</a></div>
+    <div style="font-weight: bold;font-size: 20px;margin-left: 33px"><a href="#">弧度</a></div>
+    <div style="font-weight: bold;font-size: 20px;margin-left: 33px"><a href="#">四象</a></div>
+    <div style="font-weight: bold;font-size: 20px;margin-left: 33px"><a href="#">知世</a></div>
+<div style="font-weight: bold;font-size: 20px;margin-left: 33px"><a href="#">追光计划</a></div>
+
+</div>
+
+    <div id='app3' style="display: flex;flex-direction: row;background-color: white">
+        <div style="display: flex;flex-direction: column">
+        <div style="display: flex;flex-direction: column;height: 380px;">
+    <div style="width: 320px; height: 170px; background-color: white; margin-top: 30px; margin-left: 14px; position: relative;">
+        <div>
+       <img :src="newsRecords[0].default_image" style="width: 300px; height: 170px;" alt="图片">
+    <div style="position: absolute; bottom: 0; left: 0; width: 100%; text-align: center; padding: 10px; background-color: rgba(255, 255, 255, 0.7);">
+<div ><a :href="'http://127.0.0.1:8080/news/' + newsRecords[0].id + '.html'"> <p style="margin: 0; font-weight: bold; font-size: 13px;">{{ newsRecords[0].title }}</p></a></div>        </div>
+    </div>
+        <div style="display: flex;flex-direction: row;">
+    <div style="display: flex;flex-direction: column;margin-top: 10px">
+        <img style="width: 140px; height: 80px;" :src="newsRecords[1].default_image">
+        <a :href="'http://127.0.0.1:8080/news/' + newsRecords[1].id + '.html'"><span style="width: 150px">{{ newsRecords[1].title }}</span></a>
+    </div>
+    <div style="display: flex;flex-direction: column;margin-top: 10px;margin-left: 5px">
+        <img style="width: 140px; height: 80px;" :src="newsRecords[2].default_image">
+        <a :href="'http://127.0.0.1:8080/news/' + newsRecords[2].id + '.html'"><span style="width: 150px">{{ newsRecords[2].title }}</span></a>
+    </div>
+
+</div>
+</div>
+
+
+        </div>
+        <div style="margin-left:5px;display: flex;flex-direction: column;height: 350px;border-top: 1px solid black;background-color: white;">
+
+        <div style="display: flex;flex-direction: row; ">
+            <div style="font-size: 22px;margin-top: 5px;font-weight: bold;">热点视频</div>
+            <div style="margin-top: 5px;"><a href="#" style="font-size: 14px;margin-left: 194px">更多</a> </div>
+</div>
+            <div style="position: relative;">
+                <img :src="VideoRecords[0].default_image" style="width: 300px; height: 170px;" alt="图片">
+                 <div style="position: absolute;bottom: 0; left: 0px;text-align: center; width: 280px; padding: 10px; background-color: rgba(255, 255, 255, 0.7);">
+                     <a :href="'http://127.0.0.1:8080/v_news/' + VideoRecords[0].id + '.html'"><p style="margin: 0; font-weight: bold; font-size: 13px;">{{ VideoRecords[0].title }}</p></a>
+        </div>
+            </div>
+              <div style="display: flex;flex-direction: row;">
+    <div style="display: flex;flex-direction: column;margin-top: 10px">
+        <img style="width: 140px; height: 80px;" :src="VideoRecords[1].default_image">
+        <span style="width: 150px"><a :href="'http://127.0.0.1:8080/v_news/' + VideoRecords[1].id + '.html'">{{ VideoRecords[1].title }}</a></span>
+    </div>
+    <div style="display: flex;flex-direction: column;margin-top: 10px;margin-left: 5px">
+        <img style="width: 140px; height: 80px;" :src="VideoRecords[2].default_image">
+        <span style="width: 150px"><a :href="'http://127.0.0.1:8080/v_news/' + VideoRecords[2].id + '.html'">{{ VideoRecords[2].title }}</a></span>
+    </div>
+
+</div>
+
+
+        </div>
+</div>
+
+    <div style="width: 550px; height: 1000px; background-color: white; margin-top: 30px; margin-left: -7px">
+    <div style="margin-top: 10px; margin-left: 39px">
+        <div style="font-weight: bold;"><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[0].title }}</a></div><br>
+        <div style="font-weight: bold;"><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[1].title }}</a></div><br><br>
+    </div>
+    <div style="margin-top: 10px; margin-left: 39px">
+        <div style="font-weight: bold;"><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[2].title }}
+        </a></div><br>
+        <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[3].title }}</a></div><br>
+           <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[4].title }}</a></div><br>
+        <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[5].title }}</a></div><br>
+        <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[6].title }}</a></div><br><br>
+
+    </div>
+        <div style="margin-top: 10px; margin-left: 39px">
+        <div style="font-weight: bold;"><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[7].title }}
+        </a></div><br>
+        <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[8].title }}</a></div><br>
+           <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[9].title }}</a></div><br>
+        <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[10].title }}</a></div><br>
+        <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[11].title }}</a></div><br><br>
+
+    </div>
+        <div style="margin-top: 10px; margin-left: 39px">
+        <div style="font-weight: bold;"><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[12].title }}
+        </a></div><br>
+        <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[13].title }}</a></div><br>
+           <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[14].title }}</a></div><br>
+        <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[15].title }}</a></div><br>
+        <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[16].title }}</a></div><br><br>
+
+    </div>
+
+        <div style="margin-top: 10px; margin-left: 39px">
+        <div style="font-weight: bold;"><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[17].title }}
+        </a></div><br>
+        <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[18].title }}</a></div><br>
+           <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[19].title }}</a></div><br>
+        <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[20].title }}</a></div><br>
+        <div><a href="#"><span style="color: black; margin-right: 5px;">•</span>{{ articlesRecords[21].title }}</a></div><br><br>
+
+    </div>
+
+</div>
+        <div style="width: 355px;height: 1000px;background-color: white;margin-top: 30px;margin-left: 30px">
+            <div style="display: flex;flex-direction: column;height: 350px;border-top: 1px solid black;background-color: white;">
+
+        <div style="display: flex;flex-direction: row; ">
+            <div style="font-size: 22px;margin-top: 5px;font-weight: bold;">热点精选</div>
+            <div style="margin-top: 5px;"><a href="#" style="font-size: 14px;margin-left: 194px">更多</a> </div>
+</div>
+            <div style="position: relative;">
+                <img :src="newsRecords[3].default_image" style="width: 300px; height: 170px;" alt="图片">
+                 <div style="position: absolute;bottom: 0;text-align: center; width: 280px; padding: 10px; background-color: rgba(255, 255, 255, 0.7);">
+                     <a :href="'http://127.0.0.1:8080/news/' + newsRecords[3].id + '.html'"> <p style="margin: 0; font-weight: bold; font-size: 13px;">{{ newsRecords[3].title }}</p></a>
+        </div>
+            </div>
+              <div style="display: flex;flex-direction: column;">
+    <div style="display: flex;flex-direction: row;margin-top: 10px">
+        <img style="width: 140px; height: 80px;" :src="newsRecords[4].default_image">
+        <span style="width: 166px;margin-left: 5px;font-size: 15px"><a :href="'http://127.0.0.1:8080/news/' + newsRecords[4].id + '.html'">{{ newsRecords[4].title }}</a></span>
+
+    </div>
+
+    <div style="display: flex;flex-direction: row;margin-top: 15px;">
+        <img style="width: 140px; height: 80px;" :src="newsRecords[5].default_image">
+        <span style="width: 166px;margin-left: 5px;font-size: 15px"><a :href="'http://127.0.0.1:8080/news/' + newsRecords[5].id + '.html'">{{ newsRecords[5].title }}</a></span>
+    </div>
+ <div style="display: flex;flex-direction: row;margin-top: 15px;">
+        <img style="width: 140px; height: 80px;" :src="newsRecords[6].default_image">
+        <span style="width: 166px;margin-left: 5px;font-size: 15px"><a :href="'http://127.0.0.1:8080/news/' + newsRecords[6].id + '.html'">{{ newsRecords[6].title }}</a></span>
+    </div>
+                  <div style="display: flex;flex-direction: row;margin-top: 15px;">
+        <img style="width: 140px; height: 80px;" :src="newsRecords[7].default_image">
+        <span style="width: 166px;margin-left: 5px;font-size: 15px"><a :href="'http://127.0.0.1:8080/news/' + newsRecords[7].id + '.html'">{{ newsRecords[7].title }}</a></span>
+    </div>
+                  <div style="display: flex;flex-direction: row;margin-top: 15px;">
+        <img style="width: 140px; height: 80px;" :src="newsRecords[8].default_image">
+        <span style="width: 166px;margin-left: 5px;font-size: 15px"><a :href="'http://127.0.0.1:8080/news/' + newsRecords[8].id + '.html'">{{ newsRecords[8].title }}</a></span>
+    </div>
+</div>
+
+
+        </div>
+
+
+
+            <br><br>
+        </div>
+
+    </div>
+
+    </div>
+<div class="yuntucao-link">
+  <a href="https://www.qqmu.com">
+    <div class="logo-wrap">
+      <div class="logo"></div>
+    </div>
+  </a>
+  <div class="tips-wrap fade-in">
+    <div class="tips"><span>意见反馈</span></div>
+  </div>
+</div>
+   <script type="text/javascript" src="http://127.0.0.1:8080/js/login.js"></script>
+   <script type="text/javascript" src="http://127.0.0.1:8080/js/success.js"></script>
+<script type="text/javascript" src="http://127.0.0.1:8080/js/news.js"></script>
+
+
+</body>
+</html>

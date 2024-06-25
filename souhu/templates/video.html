@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/host.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/vue-2.5.16.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/axios-0.18.0.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/jquery-1.12.4.min.js"></script>
+    <style>
+
+        body {
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;  /* 添加这一行以去除默认的body外边距 */
+    padding: 0; /* 添加这一行以去除默认的body内边距 */
+        }
+
+
+        #loginPopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    z-index: 1001;
+    width: 350px; /* Adjust the width as needed */
+    height: 350px; /* Adjust the height as needed */
+}
+
+        #closeBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+
+        a {
+            text-decoration: none; /* 去掉下划线 */
+            color: inherit; /* 继承父元素的颜色，如果有的话 */
+        }
+
+        /* 可选：定义悬停时的样式 */
+        a:hover {
+            text-decoration: underline; /* 鼠标悬停时显示下划线 */
+        }
+
+        #top-bar {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            height: 48px;
+            position: fixed;
+            top: 0;
+            z-index: 1000; /* 保证位于其他元素之上 */
+        }
+ #moreContainer {
+        position: relative;
+    }
+
+    #moreHover {
+        display: none;
+        position: absolute;
+        top: 20px; /* Adjust the top position as needed */
+        left: -50px;
+        background-color: white;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+        z-index: 1;
+        width: 250px;
+        height:100px
+    }
+    #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: 1000;
+         .custom-input {
+        margin-top: 39px;
+        margin-left: 74px;
+        font-size: 20px;
+        position: relative;
+    }
+
+    .custom-input input {
+        width: 300px; /* Adjust the width as needed */
+        padding: 10px; /* Adjust the padding as needed */
+        font-size: 16px; /* Adjust the font size as needed */
+        border: none; /* Remove the border */
+        border-radius: 5px;
+        background-color: #f5f5f5; /* Set a light gray background color */
+    }
+
+
+    </style>
+</head>
+<body>
+<div>
+    <div id="overlay"></div>
+    <div id="top-bar">
+    <div style="display: flex;flex-direction: row">
+    <a href="http://127.0.0.1:8080/index.html"><img src="http://127.0.0.1:8080/images/logo.png" style="width: 72px;height: 48px;margin-left: 142px"></a>
+        <div style="display: flex;flex-direction: row;font-size: 22px;margin-top: 10px;, sans-serif; font-weight: bold;">
+    <div style="margin-left: 24px;">新闻</div>
+            <div style="margin-left: 24px;"><a href="#"> 体育</a></div>
+            <div style="margin-left: 24px;"><a href="#">新闻</a></div>
+            <div style="margin-left: 24px;"><a href="#">汽车</a></div>
+            <div style="margin-left: 24px;"><a href="#">房产</a></div>
+            <div style="margin-left: 24px;"><a href="#">旅游</a></div>
+            <div style="margin-left: 24px;"><a href="#">教育</a></div>
+            <div style="margin-left: 24px;"><a href="#">时尚</a></div>
+            <div style="margin-left: 24px;"><a href="#">科技</a></div>
+            <div style="margin-left: 24px;"><a href="#">财经</a></div>
+            <div style="margin-left: 24px;"><a href="#">母婴</a></div>
+
+
+           <div id="moreContainer">
+    <div id="moreHover" onmouseover="showMoreContent()" onmouseout="hideMoreContent()">
+        <span style="font-size: 18px; color: black;"><a href="#"> 健康</a></span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">历史</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">军事</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">美食</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">文化</span><br>
+        <span style="font-size: 18px; color: black;">星座</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">专题</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">游戏</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">搞笑</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">动漫</span><br>
+        <span style="font-size: 18px; color: black;">宠物</span>
+
+    </div>
+    <div style="margin-top: 0; margin-left: 28px;" onmouseover="showMoreContent()" onmouseout="hideMoreContent()">更多</div>
+</div>
+
+<script>
+    function showMoreContent() {
+        var moreHover = document.getElementById("moreHover");
+        moreHover.style.display = "block";
+    }
+
+    function hideMoreContent() {
+        var moreHover = document.getElementById("moreHover");
+        moreHover.style.display = "none";
+    }
+</script>
+            <div id="app2">
+            <div v-if="username" style="font-size: 18px;margin-top: -2px;margin-left: 55px;display: flex;flex-direction: row" >
+            <div style="margin-top: -8px;"><a href="index.html"><img v-if="profileUrl" :src="profileUrl" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%;"></a></div>
+			<div style="margin-top: 5px;margin-left: 5px;font-size: 20px;"><em>[[ username ]]</em></div>
+					<div style="margin-top: 5px;margin-left: 5px;font-size: 20px;"><a @click="logoutfunc" class="quit">退出</a></div>
+				</div>
+            <div v-else style="margin-left: 150px;"><div onclick="showLoginPopup()">登录</div></div>
+                </div>
+</div>
+
+
+</div>
+
+
+
+
+
+</div>
+  <div id="app">
+<div id="loginPopup">
+    <div id="closeBtn" onclick="closeLoginPopup()">X</div>
+    <!-- Your login form goes here -->
+    <form @submit.prevent="on_submit">
+        <div style="font-size: 20px;">手机号登录</div>
+
+        <div style="margin-top: 39px;width: 300px;margin-left: 74px;"><input v-model="username" style="height:30px;border: white;background-color: #f8f8f8;" type="text" id="username" name="username" placeholder="请输入手机号" required><br></div>
+
+
+         <div style="margin-top: 30px;margin-left: 74px;font-size: 20px"><input v-model="password" style="height:30px;border: white;background-color: #f8f8f8;" type="text" id="password" name="password" placeholder="请输入密码" required><span style="font-size: 14px;margin-left: 20px"><a>忘记密码</a></span><br></div>
+
+<div style="margin-top: 64px; margin-left: 50px; height: 56px; background-color: #ffd100; width: 267px; line-height: 56px;">
+   <span style="margin-left: 106px; font-size: 17px; font-weight: bold; display: inline-block; position: relative; ">
+    <input type="submit" value="登录" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    登录
+</span>
+</div>
+    </form>
+</div>
+
+
+</div>
+    </div>
+<script>
+    function showLoginPopup() {
+        var overlay = document.getElementById("overlay");
+        var loginPopup = document.getElementById("loginPopup");
+
+        overlay.style.display = "block";
+        loginPopup.style.display = "block";
+    }
+
+    function closeLoginPopup() {
+        var overlay = document.getElementById("overlay");
+        var loginPopup = document.getElementById("loginPopup");
+        var usernameInput = document.getElementById("username");
+        var passwordInput = document.getElementById("password");
+
+        overlay.style.display = "none";
+        loginPopup.style.display = "none";
+
+        // 重置输入框
+        usernameInput.value = "";
+        passwordInput.value = "";
+    }
+</script>
+<div>
+   <div style="height: 747px; background-color: #1b1b26; position: relative;">
+
+    <!-- 推荐视频部分 -->
+<div style="height: 508px; width: 330px; overflow-y: auto; overflow-x: hidden;position: absolute; top: 93px; right: 124px; background-color: #1b1b26;">
+    <!-- 推荐视频内容 -->
+    <div style="padding: 20px; color: #fff;">
+        <!-- 推荐视频示例（替换为实际内容） -->
+        <div style="font-size: 20px; color: yellow; margin-top: -20px;">推荐</div>
+        <div style="width: 300px; margin-bottom: 20px; margin-top: 20px; display: flex; flex-direction: row;">
+            <img src="http://127.0.0.1:8080/v_news/v_img/5.png" alt="视频缩略图1" style="width: 130px; height: 74px;">
+            <div style="font-size: 15px; font-weight: bold; margin-top: -1px; margin-left: 5px; width: 135px; color: #b4b4b4;"><a href="#">这么漂亮的妹子拍这种电影，好可惜！韩国电影《表妹》</a></div>
+        </div>
+        <div style="width: 300px; margin-bottom: 20px; margin-top: 20px; display: flex; flex-direction: row;">
+            <img src="http://127.0.0.1:8080/v_news/v_img/6.png" alt="视频缩略图1" style="width: 130px; height: 74px;">
+            <div style="font-size: 15px; font-weight: bold; margin-top: -1px; margin-left: 5px; width: 135px; color: #b4b4b4;"><a href="#">就因为女主是真的好看，看完了整个片子，韩国伦理电影。</a></div>
+        </div>
+        <div style="width: 300px; margin-bottom: 20px; margin-top: 20px; display: flex; flex-direction: row;">
+            <img src="http://127.0.0.1:8080/v_news/v_img/7.jpg" alt="视频缩略图1" style="width: 130px; height: 74px;">
+            <div style="font-size: 15px; font-weight: bold; margin-top: -1px; margin-left: 5px; width: 135px; color: #b4b4b4;"><a href="#">狗狗啃到一半的骨头被主人拿走，当场被气到哽咽抽泣：委屈到...</a></div>
+        </div>
+        <div style="width: 300px; margin-bottom: 20px; margin-top: 20px; display: flex; flex-direction: row;">
+            <img src="http://127.0.0.1:8080/v_news/v_img/8.jpg" alt="视频缩略图1" style="width: 130px; height: 74px;">
+            <div style="font-size: 15px; font-weight: bold; margin-top: -1px; margin-left: 5px; width: 135px; color: #b4b4b4;"><a href="#">50岁的夫妻生活还有意思吗？一位已婚女性说出了大实话</a></div>
+        </div>
+        <div style="width: 300px; margin-bottom: 20px; margin-top: 20px; display: flex; flex-direction: row;">
+            <img src="http://127.0.0.1:8080/v_news/v_img/8.jpg" alt="视频缩略图1" style="width: 130px; height: 74px;">
+            <div style="font-size: 15px; font-weight: bold; margin-top: -1px; margin-left: 5px; width: 135px; color: #b4b4b4;"><a href="#">50岁的夫妻生活还有意思吗？一位已婚女性说出了大实话</a></div>
+        </div>
+        <div style="font-size: 20px; color: yellow; margin-top: -20px;">推荐</div>
+        <div style="width: 300px; margin-bottom: 20px; margin-top: 20px; display: flex; flex-direction: row;">
+            <img src="http://127.0.0.1:8080/v_news/v_img/5.png" alt="视频缩略图1" style="width: 130px; height: 74px;">
+            <div style="font-size: 15px; font-weight: bold; margin-top: -1px; margin-left: 5px; width: 135px; color: #b4b4b4;"><a href="#">这么漂亮的妹子拍这种电影，好可惜！韩国电影《表妹》</a></div>
+        </div>
+        <div style="width: 300px; margin-bottom: 20px; margin-top: 20px; display: flex; flex-direction: row;">
+            <img src="http://127.0.0.1:8080/v_news/v_img/6.png" alt="视频缩略图1" style="width: 130px; height: 74px;">
+            <div style="font-size: 15px; font-weight: bold; margin-top: -1px; margin-left: 5px; width: 135px; color: #b4b4b4;"><a href="#">就因为女主是真的好看，看完了整个片子，韩国伦理电影。</a></div>
+        </div>
+        <div style="width: 300px; margin-bottom: 20px; margin-top: 20px; display: flex; flex-direction: row;">
+            <img src="http://127.0.0.1:8080/v_news/v_img/7.jpg" alt="视频缩略图1" style="width: 130px; height: 74px;">
+            <div style="font-size: 15px; font-weight: bold; margin-top: -1px; margin-left: 5px; width: 135px; color: #b4b4b4;"><a href="#">狗狗啃到一半的骨头被主人拿走，当场被气到哽咽抽泣：委屈到...</a></div>
+        </div>
+        <div style="width: 300px; margin-bottom: 20px; margin-top: 20px; display: flex; flex-direction: row;">
+            <img src="http://127.0.0.1:8080/v_news/v_img/8.jpg" alt="视频缩略图1" style="width: 130px; height: 74px;">
+            <div style="font-size: 15px; font-weight: bold; margin-top: -1px; margin-left: 5px; width: 135px; color: #b4b4b4;"><a href="#">50岁的夫妻生活还有意思吗？一位已婚女性说出了大实话</a></div>
+        </div>
+        <div style="width: 300px; margin-bottom: 20px; margin-top: 20px; display: flex; flex-direction: row;">
+            <img src="http://127.0.0.1:8080/v_news/v_img/8.jpg" alt="视频缩略图1" style="width: 130px; height: 74px;">
+            <div style="font-size: 15px; font-weight: bold; margin-top: -1px; margin-left: 5px; width: 135px; color: #b4b4b4;"><a href="#">50岁的夫妻生活还有意思吗？一位已婚女性说出了大实话</a></div>
+        </div>
+        <!-- 为每个推荐视频重复此结构 -->
+    </div>
+</div>
+</div>
+    <video controls width="60%" style="position: absolute; top: 94px;left: 155px">
+        <source src="{{ new.video_detail.video }}" type="video/mp4">
+        <!-- 提供其他视频格式的备用源（如webm、ogg等），以提高兼容性 -->
+        Your browser does not support the video tag.
+    </video>
+       <div style="position: absolute; top: 625px; left: 155px; ">
+
+    <div style="color: white; font-size: 25px;font-weight: bold;">
+        {{ new.title}} </div>
+           <div style="display: flex;flex-direction: row">
+               <div style="color: #999;margin-top: 14px;;"><img src="http://127.0.0.1:8080/images/icon/zj.jpeg" style="width: 20px;height: 20px;">掌间Video</div>
+     <div style="margin-top: 19px;color: #999;margin-left: 10px;">{{ new.release_date}}&nbsp&nbsp&nbsp来源: {{ new.video_detail.news_from }}&nbsp&nbsp&nbsp发布于：四川省</div>
+
+               </div>
+
+</div>
+
+
+</div>
+
+    <div>
+        <div style="margin-top: 34px;margin-left: 153px;font-size: 25px;font-weight: bold;">热门新闻</div>
+        <div style="display:flex;flex-direction: column">
+
+            <div style="display: flex;flex-direction: row;margin-top: 35px;margin-left: 153px;">
+
+                <div style="display: flex;flex-direction: column;">
+                <div><a><img src="v_img/4.jpg" style="width: 230px;height: 128px"></a></div>
+                    <div style="margin-left: 15px;margin-top: 5px;width: 200px;"><a href="#">D03.30钉钉专业版部署ERP搭建教程-销售</a></div>
+                         </div>
+
+                <div style="display: flex;flex-direction: column;margin-left: 15px;">
+                <div><a><img src="v_img/4.jpg" style="width: 230px;height: 128px"></a></div>
+                    <div style="margin-left: 15px;width: 200px;">D03.30钉钉专业版部署ERP搭建教程-销售</div>
+                         </div>
+
+                <div style="display: flex;flex-direction: column;margin-left: 15px;">
+                <div><a><img src="v_img/4.jpg" style="width: 230px;height: 128px"></a></div>
+                    <div style="margin-left: 15px;width: 200px;">D03.30钉钉专业版部署ERP搭建教程-销售</div>
+                         </div>
+                <div style="display: flex;flex-direction: column;margin-left: 15px;">
+                <div><a><img src="v_img/4.jpg" style="width: 230px;height: 128px"></a></div>
+                    <div style="margin-left: 15px;width: 200px;">D03.30钉钉专业版部署ERP搭建教程-销售</div>
+                         </div>
+                <div style="display: flex;flex-direction: column;margin-left: 15px;">
+                <div><a><img src="v_img/4.jpg" style="width: 230px;height: 128px"></a></div>
+                    <div style="margin-left: 15px;width: 200px;">D03.30钉钉专业版部署ERP搭建教程-销售</div>
+                         </div>
+
+
+            </div>
+            <div style="display: flex;flex-direction: row;margin-top: 35px;margin-left: 153px;">
+
+                <div style="display: flex;flex-direction: column;">
+                <div><a><img src="v_img/4.jpg" style="width: 230px;height: 128px"></a></div>
+                    <div style="margin-left: 15px;margin-top: 5px;width: 200px;"><a href="#">D03.30钉钉专业版部署ERP搭建教程-销售</a></div>
+                         </div>
+
+                <div style="display: flex;flex-direction: column;margin-left: 15px;">
+                <div><a><img src="v_img/4.jpg" style="width: 230px;height: 128px"></a></div>
+                    <div style="margin-left: 15px;width: 200px;">D03.30钉钉专业版部署ERP搭建教程-销售</div>
+                         </div>
+
+                <div style="display: flex;flex-direction: column;margin-left: 15px;">
+                <div><a><img src="v_img/4.jpg" style="width: 230px;height: 128px"></a></div>
+                    <div style="margin-left: 15px;width: 200px;">D03.30钉钉专业版部署ERP搭建教程-销售</div>
+                         </div>
+                <div style="display: flex;flex-direction: column;margin-left: 15px;">
+                <div><a><img src="v_img/4.jpg" style="width: 230px;height: 128px"></a></div>
+                    <div style="margin-left: 15px;width: 200px;">D03.30钉钉专业版部署ERP搭建教程-销售</div>
+                         </div>
+                <div style="display: flex;flex-direction: column;margin-left: 15px;">
+                <div><a><img src="v_img/4.jpg" style="width: 230px;height: 128px"></a></div>
+                    <div style="margin-left: 15px;width: 200px;">D03.30钉钉专业版部署ERP搭建教程-销售</div>
+                         </div>
+
+
+            </div>
+
+            <div style="display: flex;flex-direction: row">
+                <div>1</div>
+                <div>2</div>
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+       <script type="text/javascript" src="http://127.0.0.1:8080/js/login.js"></script>
+   <script type="text/javascript" src="http://127.0.0.1:8080/js/success.js"></script>
+<script type="text/javascript" src="http://127.0.0.1:8080/js/news.js"></script>
+
+</body>
+</html>

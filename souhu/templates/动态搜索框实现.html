@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态搜索框</title>
+    <style>
+
+        .a{
+
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background-color: #2f3640;
+            height: 40px;
+            border-radius: 40px;
+            padding: 10px;
+        }
+        .a:hover .b{
+            width: 200px;
+            padding: 0 6px;
+        }
+        .a:hover .c{
+            background-color: wheat;
+        }
+        .b{
+            border: none;
+            background: none;
+            /* 取消选中搜索框时的外边框 */
+            outline: none;
+            width: 0;
+            padding: 0;
+            transition: .4s;
+            line-height: 40px;
+            font-size: 20px;
+            color: wheat;
+        }
+        .c{
+
+            color: #e94118;
+            float: right;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #2f3640;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: .4s;
+        }
+    </style>
+</head>
+<body>
+   <div style="margin-top: 57px; margin-left: 750px;  position: absolute;">
+    <div class="a">
+
+        <input type="text" class="b" placeholder="搜索新闻">
+        <a href="#" class="c">
+            <img src="http://127.0.0.1:8080/images/icon/%E6%90%9C%E7%B4%A2%E6%A1%86.png" style="width: 30px;">
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

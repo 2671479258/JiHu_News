@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/host.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/vue-2.5.16.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/axios-0.18.0.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8080/js/jquery-1.12.4.min.js"></script>
+    <style>
+        #reply{
+            display: none;
+        }
+         .yuntucao-link {
+            position: fixed;
+            bottom: 40px;
+            right: 20px;
+            z-index: 9999;
+        }
+        .logo-wrap {
+            cursor: pointer;
+            opacity: .9;
+            padding: 15px 10px 10px;
+            border-radius: 20px;
+            background: linear-gradient(-180deg, #dadfea, #ebedf5);
+        }
+        .logo {
+            width: 32px;
+            height: 28px;
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAcCAYAAAAAwr0iAAAABGdBTUEAALGPC/xhBQAAAqxJREFUSA21Vs9r1EAUfi/Z7bog1FU8KdWLv26ia1W0rApCD0qhdhdE8CdtL9WbBwX/gB48eShdqeJ1rb21KipbpSC9FARBoVIpiheVqkUQu+b5JWtKEjPJbNqdQ2bmvW++92XeZF6Y/rVypXoewwFi3iMi7NpXu2fiT8Q0njGz18517//qBCpXnt8SsgZWO1g0H3/IptJ58/bo5Gm88WA0uCne1pplbTLEoitNodcgxfZ3GkSyTwMLCC/h8YqZRQ+PFcTv8FxQ4YVkvQE2UwXw2Zkv95eO7gbhTZ9dOeGZdVTYmTbNfJRo7IBeMwxr3EYy1fu4Vcz0uFTiPxdPdcyR0FsVXluAZfFBm0So3qsIPXYHf29segM+6m0eu2/Iw5WqZk55AYfmmbCchIqMj0UxwRl4gjy3wb1DAaGUyvG/XXJQ2oPg2g3Bj8eBtVMQR5TU38AOBEIw4Ro1hljkh9djMe0ikQteW9Q4sQDkd6SvWLgRRl6+Xz0mQlvCfEFb4hTgQCo/LdSyN8FAqnliASLGnIoU9vcRPp8ruQAylEFAqvT5omOSUAAv9RUPfQySuXMxInfHhTl9IgHI/zzud8vH5Jng5mv2DkQHWJthfQF4k28e8VpDicnxmRMddgn+HkeGgjVvp+BhHDDoxx3wO2jzzicmZjMomzWvLXzMY3yn8mJjja0Z/JZtDgeFWZ2fk5cI8ivMi3qxHXVza6hv2civs625AzhPRMOVqTYIHsLWdmJhooO5zBs74C/4qXpgtqSvXuo6vOgIcNfcrVbXLH2mKQjZ69pwRhZRgs/mLHrq2lbSF4tHfoITIerNJ8A2lSuT0yij7Y6bedYwuau3u6B9tdZp9Z8R282PWlLS3szgtszQaojPY7C3p3A96rLRf8cGkSOj1XyDS1YE/wsT+LIWtt/NgQAAAABJRU5ErkJggg==) no-repeat 0;
+        }
+        .logo-wrap:hover {
+            background: #418dff;
+        }
+        .logo-wrap:hover .logo {
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAcCAYAAAAAwr0iAAAABGdBTUEAALGPC/xhBQAAAe1JREFUSA29ls8uA1EUxjsqYSOIsCGNjX8bkbDgITyAjfAA3oOFlQXxEHZNI9hJRCJWgoigwkr8j0TQjt9hppk77ZmZzmTmJF/vPd85Pefr3Om9N5dzzLbtBXAEqiBNu6f4Juhxe+dw1tLsqNS+he/L8zGHkpWamuwmnbTqtxBwwGQ6u75GpycR8AOVN+jGzjf0KRgHVuOUOvYSRta6uy7iEC2MUZpL+pJlWROMq+JEsGNyRsEUsLV8ERDVik6iO4Z9bxvBFXBF4rmW3IyAGaeIO2o1Xf4vjyWWJRhySf8o74D6eHzJz/h7YBa0+WKau0OgAEa0hGYEaDUS8c0sQaJG2pdbtUAE/pGcdfDmyx3DX/RxuivvQExTd0/q3UStmWQJ1L8WP/dM/8lmJIkA+X9rdq0F/HwSAUFNgmKGhrgC5Fy4MyqZTtDTMTLjCiizxVaNSqaT+hMIaxAWr8mVJ/BS86JPAhvwdGTbfo1QriwCShES/SlffsLrswfIWSH3jDDbkrOglyw5uwfCsj1xeQnlJvXp4bzTYZxBL9FgfgL3fxNDRAEUQQWkbQ802AAdIsq4WkG2w+2DSQk69s44D3ZdIuH4wTtiqzUQcQhcu2Aih0t2RkNXQIl5V3adnU6OgGXGuJtUMs00lltsZvYLUPxHqiXJxFUAAAAASUVORK5CYII=) no-repeat 0;
+        }
+        .yuntucao-link:hover .tips-wrap {
+            display: block;
+            background: #418dff;
+        }
+        .tips-wrap {
+            position: relative;
+            display: none;
+        }
+        .tips {
+            width: 86px;
+            height: 32px;
+            background: #4e4e4e;
+            border-radius: 4px;
+            position: absolute;
+            left: -98px;
+            top: -44px;
+            color:#fff;
+            text-align: center;
+            line-height: 32px;
+            font-size: 14px;
+        }
+
+        .tips:after {
+            content: " ";
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 6px solid #4e4e4e;
+            position: absolute;
+            right: -6px;
+            top: 10px;
+        }
+
+        body {
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;  /* 添加这一行以去除默认的body外边距 */
+    padding: 0; /* 添加这一行以去除默认的body内边距 */
+        }
+
+
+        #loginPopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    z-index: 1001;
+    width: 350px; /* Adjust the width as needed */
+    height: 350px; /* Adjust the height as needed */
+}
+
+        #closeBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        #block {
+            width: 1200px;
+            height: 220px;
+            background-color: white;
+            margin-left: 152px;
+            margin-top: 80px;
+            margin-bottom: 0
+        }
+        #block2 {
+            width: 1200px;
+            height: 300px;
+            background-color: white;
+            margin-left: 152px;
+            margin-top: 0;
+             border-top: 1px solid black; /* 设置上边框为1像素的黑色边框 */
+
+
+        }
+
+        .big-god {
+            position: relative;
+        }
+
+        .god-mark {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #000;
+            color: #fff;
+            padding: 5px;
+        }
+        a {
+            text-decoration: none; /* 去掉下划线 */
+            color: inherit; /* 继承父元素的颜色，如果有的话 */
+        }
+
+        /* 可选：定义悬停时的样式 */
+        a:hover {
+            text-decoration: underline; /* 鼠标悬停时显示下划线 */
+        }
+
+        #top-bar {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            height: 48px;
+            position: fixed;
+            top: 0;
+            z-index: 1000; /* 保证位于其他元素之上 */
+        }
+ #moreContainer {
+        position: relative;
+    }
+
+    #moreHover {
+        display: none;
+        position: absolute;
+        top: 20px; /* Adjust the top position as needed */
+        left: -50px;
+        background-color: white;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+        z-index: 1;
+        width: 250px;
+        height:100px
+    }
+    #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: 1000;
+         .custom-input {
+        margin-top: 39px;
+        margin-left: 74px;
+        font-size: 20px;
+        position: relative;
+    }
+
+    .custom-input input {
+        width: 300px; /* Adjust the width as needed */
+        padding: 10px; /* Adjust the padding as needed */
+        font-size: 16px; /* Adjust the font size as needed */
+        border: none; /* Remove the border */
+        border-radius: 5px;
+        background-color: #f5f5f5; /* Set a light gray background color */
+    }
+
+
+    </style>
+</head>
+
+<body>
+<div id="overlay"></div>
+<div>
+<div id="top-bar">
+    <div style="display: flex;flex-direction: row">
+        <a href="http://127.0.0.1:8080/index.html"><img src="http://127.0.0.1:8080/images/logo.png" style="width: 72px;height: 48px;margin-left: 142px"></a>
+        <div style="display: flex;flex-direction: row;font-size: 22px;margin-top: 10px;, sans-serif; font-weight: bold;">
+    <div style="margin-left: 24px;">新闻</div>
+            <div style="margin-left: 24px;"><a href="#"> 体育</a></div>
+            <div style="margin-left: 24px;"><a href="#">新闻</a></div>
+            <div style="margin-left: 24px;"><a href="#">汽车</a></div>
+            <div style="margin-left: 24px;"><a href="#">房产</a></div>
+            <div style="margin-left: 24px;"><a href="#">旅游</a></div>
+            <div style="margin-left: 24px;"><a href="#">教育</a></div>
+            <div style="margin-left: 24px;"><a href="#">时尚</a></div>
+            <div style="margin-left: 24px;"><a href="#">科技</a></div>
+            <div style="margin-left: 24px;"><a href="#">财经</a></div>
+            <div style="margin-left: 24px;"><a href="#">母婴</a></div>
+
+
+           <div id="moreContainer">
+    <div id="moreHover" onmouseover="showMoreContent()" onmouseout="hideMoreContent()">
+        <span style="font-size: 18px; color: black;"><a href="#"> 健康</a></span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">历史</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">军事</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">美食</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">文化</span><br>
+        <span style="font-size: 18px; color: black;">星座</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">专题</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">游戏</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">搞笑</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">动漫</span><br>
+        <span style="font-size: 18px; color: black;">宠物</span>
+
+    </div>
+    <div style="margin-top: 0; margin-left: 28px;" onmouseover="showMoreContent()" onmouseout="hideMoreContent()">更多</div>
+</div>
+
+<script>
+    function showMoreContent() {
+        var moreHover = document.getElementById("moreHover");
+        moreHover.style.display = "block";
+    }
+
+    function hideMoreContent() {
+        var moreHover = document.getElementById("moreHover");
+        moreHover.style.display = "none";
+    }
+</script>
+            <div id="app2">
+            <div v-if="username" style="font-size: 18px;margin-top: -2px;margin-left: 55px;display: flex;flex-direction: row" >
+            <div style="margin-top: -8px;"><a href="http://127.0.0.1:8080/user_info.html"><img v-if="profileUrl" :src="profileUrl" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%;"></a></div>
+			<div style="margin-top: 5px;margin-left: 5px;font-size: 20px;"><em>[[ username ]]</em></div>
+					<div style="margin-top: 5px;margin-left: 5px;font-size: 20px;"><a @click="logoutfunc" class="quit">退出</a></div>
+				</div>
+            <div v-else style="margin-left: 150px;"><div onclick="showLoginPopup()">登录</div></div>
+                </div>
+</div>
+
+
+</div>
+
+
+
+
+
+</div>
+  <div id="app">
+<div id="loginPopup">
+    <div id="closeBtn" onclick="closeLoginPopup()">X</div>
+    <!-- Your login form goes here -->
+    <form @submit.prevent="on_submit">
+        <div style="font-size: 20px;">手机号登录</div>
+
+        <div style="margin-top: 39px;width: 300px;margin-left: 74px;"><input v-model="username" style="height:30px;border: white;background-color: #f8f8f8;" type="text" id="username" name="username" placeholder="请输入手机号" required><br></div>
+
+
+         <div style="margin-top: 30px;margin-left: 74px;font-size: 20px"><input v-model="password" style="height:30px;border: white;background-color: #f8f8f8;" type="text" id="password" name="password" placeholder="请输入密码" required><span style="font-size: 14px;margin-left: 20px"><a>忘记密码</a></span><br></div>
+
+<div style="margin-top: 64px; margin-left: 50px; height: 56px; background-color: #ffd100; width: 267px; line-height: 56px;">
+   <span style="margin-left: 106px; font-size: 17px; font-weight: bold; display: inline-block; position: relative; ">
+    <input type="submit" value="登录" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    登录
+</span>
+</div>
+    </form>
+</div>
+
+
+</div>
+    </div>
+<script>
+    function showLoginPopup() {
+        var overlay = document.getElementById("overlay");
+        var loginPopup = document.getElementById("loginPopup");
+
+        overlay.style.display = "block";
+        loginPopup.style.display = "block";
+    }
+
+    function closeLoginPopup() {
+        var overlay = document.getElementById("overlay");
+        var loginPopup = document.getElementById("loginPopup");
+        var usernameInput = document.getElementById("username");
+        var passwordInput = document.getElementById("password");
+
+        overlay.style.display = "none";
+        loginPopup.style.display = "none";
+
+        // 重置输入框
+        usernameInput.value = "";
+        passwordInput.value = "";
+    }
+</script>
+
+
+<div  style="display:flex;flex-direction: row;">
+
+        <div style="position: relative; margin-top: 80px; width: 350px; height: 500px;">
+    <div style="position: fixed; left: 0; top: calc(80px + 169px);margin-left: 147px;">
+        <div style="display: flex;flex-direction: row">
+        <div><img src="http://127.0.0.1:8080/images/icon/wx.png"></div>
+            <a><div style="margin-left: 6px;margin-top: 1px">微信分享</div></a>
+        </div>
+
+        <div style="display: flex;flex-direction: row;margin-top: 10px">
+        <div><img src="http://127.0.0.1:8080/images/icon/wb.png"></div>
+            <a><div style="margin-left: 6px;margin-top: 1px">新浪微博</div></a>
+        </div>
+
+         <div style="display: flex;flex-direction: row;margin-top: 10px">
+        <div><img src="http://127.0.0.1:8080/images/icon/qq.png"></div>
+            <a><div style="margin-left: 6px;margin-top: 1px">QQ空间</div></a>
+        </div>
+
+         <div style="display: flex;flex-direction: row;margin-top: 10px">
+        <div><img src="http://127.0.0.1:8080/images/icon/lj.png"></div>
+            <a><div style="margin-left: 6px;margin-top: 1px">复制链接</div></a>
+        </div>
+
+        <div style="display: flex;flex-direction: column;margin-top: 25px;">
+            <div style="margin-left: 5px;"><img src="http://127.0.0.1:8080/images/icon/sm.png"></div>
+            <div style="margin-top: 5px;font-size: 12px;margin-left: -4px;">扫码打开手机搜狐网</div>
+            <div style="margin-top: 5px;font-size: 12px;margin-left: 11px;color: #999;">无需下载app</div>
+            <div style="margin-top: 5px;font-size: 12px;margin-left: 1px;color:#999;">精彩内容随时看</div>
+        </div>
+
+
+    </div>
+</div>
+
+<div style="display:flex;flex-direction:column;margin-top: 80px;margin-left:30px;height: auto;width: 650px;background-color: white">
+    <div id='app3'>
+    <div style="display: flex;flex-direction: column">
+        <div style="height: 100px;background-color: white">
+            <h1> 突发！英国航空母舰伊丽莎白女王号着火</h1>
+        </div>
+        <div style="height: 50px;background-color: white">
+            <div style="margin-top: 14px;color: #999">March 12, 2024&nbsp&nbsp&nbsp来源: 红星新闻&nbsp&nbsp&nbsp发布于：四川省</div>
+        </div>
+</div>
+        <div style="height:600px;margin-top: 15px;background-color: white">
+            <div style="font-size: 17px;font-weight: bold;">
+          <div>据英国“UKDefenceJournal”网站、英国《独立报》等多家英国媒体当地时间9日报道，停靠在苏格兰格伦马兰的英国航空母舰“伊丽莎白女王”号发生火灾。目前尚无人员伤亡报告。</div>
+            </div>
+
+            <div>
+            
+         <div><img src="http://127.0.0.1:8080/images/news/2/2.1.jpeg" style="width: 650px; height: 451px; margin-top: 48px;"> </div>
+             
+
+                </div>
+
+
+
+    <div style="font-size: 17px;font-weight: bold;margin-top: 25px;">
+        <div>据报道，船上的一名工作人员称，“截至目前，此次事故中没有人员伤亡，船只受到轻微火灾损坏。”<br><br>
+英国皇家海军发言人表示，这是一起“小规模”火灾，火势很快得到控制，火已被扑灭。<br><br>
+报道称，“伊丽莎白女王”号航母原计划前往苏格兰罗赛斯“对其右舷螺旋桨轴联轴器”进行维修，发生火灾时停靠在格伦马兰。<br><br>
+目前，火灾原因还在调查中。<br><br>
+此前报道，当地时间2月4日，英国皇家海军表示，原定要参加冷战以来最大规模北约军演的英国航空母舰“伊丽莎白女王”号，因在最后检查中发现螺旋桨存在问题，无法在4日起航。<br><br></div>
+    </div>
+
+
+
+              <div>
+       
+            <div><img src="http://127.0.0.1:8080/images/news/2/2.2.jpeg" style="width: 650px;height: 451px;margin-top: 48px;"> </div>
+                  
+
+           <div style="margin-top: 5px">图片来源：英国“UKDefenceJournal”网站报道截图</div>
+
+                </div>
+
+
+         
+
+
+ <div>
+
+ 
+                </div>
+
+    <br><br><br>
+
+        </div>
+    </div>
+<div id="app777" style="margin-top: 2200px; font-size: 20px;">
+        <div>
+            <div>我来说两句</div>
+    <form id="commentForm">
+    <div style="margin-top: 5px;">
+        <textarea id="inputTextarea" v-model="userInput" style="width: 645px; min-height: 31px; border-color: red;" @input="autoExpandTextarea"></textarea>
+        <div style="width: 50px; margin-left: 577px; margin-top: 10px;">
+            <button type="button" @click="checkAndPublish" style="width:90px;margin-left:-14px;font-size: 20px; border-radius: 8px; border: none; background-color: rgb(254, 208, 0); color: black; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; cursor: pointer;">发表</button>
+        </div>
+    </div>
+</form>
+
+            <div style="font-size: 13px;margin-top: 10px;color: #999"><a href="#"> 搜狐我来说两句公约</a></div>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <div>最新评论</div>
+            
+<div v-for="comment in commentsRecords" :key="comment.id" style="display: flex;flex-direction: row;margin-top: 25px;">
+        <div><img :src="comment.profile" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%;"></div>
+        <div style="display: flex;flex-direction: column">
+            <div style="font-size: 15px;color: #cf141a;margin-left: 10px;">{{ comment.username }}</div>
+            <div style="font-size: 15px;margin-left: 10px;margin-top: 15px;">{{ comment.comment }}</div>
+            <div style='display: flex;flex-direction: row;'>
+                <div style="font-size: 14px;margin-left: 10px;margin-top: 15px;color: #7e7e7e">{{ comment.release_date }}</div>
+                <div style="font-size: 14px;margin-left: 435px;margin-top: 15px;color: #7e7e7e"><a @click="showreply(comment)">回复</a></div>
+            </div>
+            <div style="font-size: 14px;margin-left: 10px;margin-top: 10px;color: #7e7e7e">{{ comment.area }}</div>
+
+            <!-- 回复循环 -->
+            <div v-for="reply in comment.replies" :key="reply.id" style="display: flex;flex-direction: row;margin-top: 25px;">
+                <div><img :src="reply.profile" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%;"></div>
+                <div style="display: flex;flex-direction: column;margin-left: 15px;">
+                    <div style="font-size: 15px;color: #cf141a;margin-left: 10px;">{{ reply.username }}</div>
+                    <div style="font-size: 15px;margin-left: 10px;margin-top: 15px;">{{ reply.reply }}</div>
+                    <div style='display: flex;flex-direction: row;'>
+                        <div style="font-size: 14px;margin-left: 10px;margin-top: 15px;color: #7e7e7e">{{ reply.release_date }}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- /回复循环 -->
+
+            <!-- 回复框 -->
+            <div :id="'overlay2-' + comment.id" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none;">
+                <div :id="'reply-box-' + comment.id" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 8px;">
+                    <div v-if="username">
+                        <textarea :id="'yeslogin-' + comment.id" style="height: 30px;width: 630px;margin-top: 5px;border-color: red" :placeholder="'回复 @' + comment.username" v-model="replyContent"></textarea>
+                        <button type="button" style="height:40px;border:none;border-radius: 8px;font-size:15px;margin-left: 550px;margin-top: 15px;background-color: rgb(254, 208, 0);" @click="submitReply(comment)">发表</button>
+                    </div>
+                    <div v-else>
+                        <textarea :id="'unlogin-' + comment.id" style="height: 30px;width: 630px;margin-top: 5px;border-color: red" :placeholder="'回复 @' + comment.username"></textarea>
+                        <button type="button" style="height:40px;border:none;border-radius: 8px;font-size:15px;margin-left: 550px;margin-top: 15px;background-color: rgb(254, 208, 0);" onclick="showLoginPopup()">登录并发表</button>
+                    </div>
+                    <!-- 关闭按钮 -->
+                    <button type="button" style="position: absolute; top: 10px; right: 10px; font-size: 20px; background-color: transparent; border: none; cursor: pointer;" @click="closeReplyBox(comment.id)">X</button>
+                </div>
+            </div>
+            <!-- /回复框 -->
+        </div>
+    </div>              <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+        </div>
+    </div>
+
+    </div>
+
+
+    <div style="margin-top: -64px;margin-left:30px;width: 450px;height: 500px;background-color: greenyellow">
+
+<div style="display: flex;flex-direction: row;background-color: white">
+<div style="width: 355px;height: 1000px;background-color: white;margin-top: 168px;margin-left: 30px">
+    <div style="width: 150px;display: flex;flex-direction: row;">
+<form method="get" action="/search.html" >
+        <div style="margin-top: 57px; margin-left: -7px;display: flex;flex-direction: row">
+                <div ><input type="text" name="q"  id="searchInput" style="font-size: 15px;width: 250px;height: 40px" ></div>
+            <div style="margin-left:5px;background-color: rgb(255, 209, 0);color: black;padding: 10px 20px;border: none;border-radius: 5px;cursor: pointer;font-size: 15px;"><input type="submit"  id="searchBtn" style="opacity: 1; background-color: transparent; border: none;font-size: 14px;" value="搜索"></div>
+
+        </div>
+
+    </form></div>
+            <div style="margin-top:102px;display: flex;flex-direction: column;height: 350px;border-top: 1px solid black;background-color: white;">
+
+        <div style="display: flex;flex-direction: row; ">
+            <div style="font-size: 22px;margin-top: 5px;font-weight: bold;">最新新闻</div>
+            <div style="margin-top: 5px;"><a href="#" style="font-size: 14px;margin-left: 194px">更多</a> </div>
+</div>
+            <div style="position: relative;">
+                <img src="http://127.0.0.1:8080/images/cover/17.png" style="width: 300px; height: 170px;" alt="图片">
+                 <div style="position: absolute;bottom: 0;text-align: center; width: 280px; padding: 10px; background-color: rgba(255, 255, 255, 0.7);">
+<a href="http://127.0.0.1:8080/news/17.html"><p style="margin: 0; font-weight: bold; font-size: 13px;">市场监管总局等六部门：预制菜生产过程不允许添加防腐剂</p></a>
+        </div>
+            </div>
+              <div style="display: flex;flex-direction: column;">
+    <div style="display: flex;flex-direction: row;margin-top: 10px">
+        <img style="width: 120px; height: 80px;" src="http://127.0.0.1:8080/images/cover/16.png">
+        <a href="http://127.0.0.1:8080/news/16.html"> <span style="width: 166px;margin-left: 5px;font-size: 15px">西安殡仪馆花卉高于市场价3倍还重复用 负责人回应：为节约资源 </span></a>
+
+    </div>
+
+    <div style="display: flex;flex-direction: row;margin-top: 15px;">
+        <img style="width: 120px; height: 80px;" src="http://127.0.0.1:8080/images/cover/15.png">
+        <a href="http://127.0.0.1:8080/news/15.html"><span style="width: 166px;margin-left: 5px;font-size: 15px">中国男篮成为被嫌弃的一群人 胡金秋：没人给我们鼓掌 </span></a>
+    </div>
+ <div style="display: flex;flex-direction: row;margin-top: 15px;">
+        <img style="width: 120px; height: 80px;" src="http://127.0.0.1:8080/images/cover/14.png">
+     <a href="http://127.0.0.1:8080/news/14.html"><span style="width: 166px;margin-left: 5px;font-size: 15px">俄：已消灭147名抵乌的法国雇佣兵</span></a>
+    </div>
+
+                  <div style="display: flex;flex-direction: row;margin-top: 15px;">
+        <img style="width: 120px; height: 80px;" src="http://127.0.0.1:8080/images/cover/13.png">
+                      <a href="http://127.0.0.1:8080/news/13.html"><span style="width: 166px;margin-left: 5px;font-size: 15px">姚明回应何时出现下一个姚明</span></a>
+    </div>
+
+
+    <div style="display: flex;flex-direction: row;margin-top: 15px;">
+        <img style="width: 120px; height: 80px;" src="http://127.0.0.1:8080/images/cover/12.png">
+        <a href="http://127.0.0.1:8080/news/12.html"><span style="width: 166px;margin-left: 5px;font-size: 15px">马克龙被曝将呼吁俄在巴黎奥运会期间停火，并称“如果普京来电话，我会接” </span></a>
+    </div>
+
+
+
+
+
+
+</div>
+
+
+        </div>
+        </div>
+</div>
+
+
+</div>
+</div>
+
+<div class="yuntucao-link">
+  <a href="https://www.qqmu.com">
+    <div class="logo-wrap">
+      <div class="logo"></div>
+    </div>
+  </a>
+  <div class="tips-wrap fade-in">
+    <div class="tips"><span>意见反馈</span></div>
+  </div>
+</div>
+
+
+
+
+
+
+   <script type="text/javascript" src="http://127.0.0.1:8080/js/login.js"></script>
+   <script type="text/javascript" src="http://127.0.0.1:8080/js/success.js"></script>
+<script type="text/javascript" src="http://127.0.0.1:8080/js/news.js"></script>
+<script type="text/javascript" src="http://127.0.0.1:8080/js/comment.js"></script>
+
+</body>
+</html>

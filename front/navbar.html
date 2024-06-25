@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<style>
+        #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: 1000;}
+
+      a {
+            text-decoration: none; /* 去掉下划线 */
+            color: inherit; /* 继承父元素的颜色，如果有的话 */
+        }
+
+
+     #loginPopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    z-index: 1001;
+    width: 350px; /* Adjust the width as needed */
+    height: 350px; /* Adjust the height as needed */
+}
+
+        #closeBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        #top-bar {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            height: 48px;
+            position: fixed;
+            top: 0;
+            z-index: 1000; /* 保证位于其他元素之上 */
+        }
+ #moreContainer {
+        position: relative;
+    }
+
+    #moreHover {
+        display: none;
+        position: absolute;
+        top: 20px; /* Adjust the top position as needed */
+        left: -50px;
+        background-color: white;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+        z-index: 1;
+        width: 250px;
+        height:100px
+    }
+</style>
+    <script type="text/javascript" src="js/host.js"></script>
+    <script type="text/javascript" src="js/vue-2.5.16.js"></script>
+    <script type="text/javascript" src="js/axios-0.18.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+<body>
+<div id="overlay"></div>
+<div>
+
+<div id="top-bar">
+    <div style="display: flex;flex-direction: row">
+        <a href="http://127.0.0.1:8080/index.html"><img src="images/logo.png" style="width: 72px;height: 48px;margin-left: 142px"></a>
+        <div style="display: flex;flex-direction: row;font-size: 22px;margin-top: 10px;, sans-serif; font-weight: bold;">
+    <div style="margin-left: 24px;"><a href="#"> 新闻</a></div>
+            <div style="margin-left: 24px;"><a href="#"> 体育</a></div>
+            <div style="margin-left: 24px;"><a href="#">新闻</a></div>
+            <div style="margin-left: 24px;"><a href="#">汽车</a></div>
+            <div style="margin-left: 24px;"><a href="#">房产</a></div>
+            <div style="margin-left: 24px;"><a href="#">旅游</a></div>
+            <div style="margin-left: 24px;"><a href="#">教育</a></div>
+            <div style="margin-left: 24px;"><a href="#">时尚</a></div>
+            <div style="margin-left: 24px;"><a href="#">科技</a></div>
+            <div style="margin-left: 24px;"><a href="#">财经</a></div>
+            <div style="margin-left: 24px;"><a href="#">母婴</a></div>
+
+
+           <div id="moreContainer">
+    <div id="moreHover" onmouseover="showMoreContent()" onmouseout="hideMoreContent()">
+        <span style="font-size: 18px; color: black;"><a href="#"> 健康</a></span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">历史</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">军事</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">美食</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">文化</span><br>
+        <span style="font-size: 18px; color: black;">星座</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">专题</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">游戏</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">搞笑</span>
+        <span style="font-size: 18px; margin-left: 10px; color: black;">动漫</span><br>
+        <span style="font-size: 18px; color: black;">宠物</span>
+
+    </div>
+    <div style="margin-top: 0; margin-left: 28px;" onmouseover="showMoreContent()" onmouseout="hideMoreContent()">更多</div>
+</div>
+
+<script>
+    function showMoreContent() {
+        var moreHover = document.getElementById("moreHover");
+        moreHover.style.display = "block";
+    }
+
+    function hideMoreContent() {
+        var moreHover = document.getElementById("moreHover");
+        moreHover.style.display = "none";
+    }
+</script>
+            <div id="app2">
+            <div v-if="username" style="font-size: 18px;margin-top: -2px;margin-left: 55px;display: flex;flex-direction: row" >
+            <div style="margin-top: -8px;"><a href="http://127.0.0.1:8080/user_info.html"><img v-if="profileUrl" :src="profileUrl" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%;"></a></div>
+			<div style="margin-top: 5px;margin-left: 5px;font-size: 20px;"><em>[[ username ]]</em></div>
+					<div style="margin-top: 5px;margin-left: 5px;font-size: 20px;"><a @click="logoutfunc" class="quit">退出</a></div>
+				</div>
+            <div v-else style="margin-left: 150px;"><div onclick="showLoginPopup()">登录</div></div>
+                </div>
+</div>
+
+
+</div>
+
+
+
+
+
+</div>
+  <div id="app">
+<div id="loginPopup">
+    <div id="closeBtn" onclick="closeLoginPopup()">X</div>
+    <!-- Your login form goes here -->
+    <form @submit.prevent="on_submit">
+        <div style="font-size: 20px;">手机号登录</div>
+
+        <div style="margin-top: 39px;width: 300px;margin-left: 74px;"><input v-model="username" style="height:30px;border: white;background-color: #f8f8f8;" type="text" id="username" name="username" placeholder="请输入手机号" required><br></div>
+
+
+         <div style="margin-top: 30px;margin-left: 74px;font-size: 20px"><input v-model="password" style="height:30px;border: white;background-color: #f8f8f8;" type="text" id="password" name="password" placeholder="请输入密码" required><span style="font-size: 14px;margin-left: 20px"><a>忘记密码</a></span><br></div>
+
+<div style="margin-top: 64px; margin-left: 50px; height: 56px; background-color: #ffd100; width: 267px; line-height: 56px;">
+   <span style="margin-left: 106px; font-size: 17px; font-weight: bold; display: inline-block; position: relative; ">
+    <input type="submit" value="登录" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    登录
+</span>
+</div>
+    </form>
+</div>
+
+
+</div>
+    </div>
+<script>
+    function showLoginPopup() {
+        var overlay = document.getElementById("overlay");
+        var loginPopup = document.getElementById("loginPopup");
+
+        overlay.style.display = "block";
+        loginPopup.style.display = "block";
+    }
+
+    function closeLoginPopup() {
+        var overlay = document.getElementById("overlay");
+        var loginPopup = document.getElementById("loginPopup");
+        var usernameInput = document.getElementById("username");
+        var passwordInput = document.getElementById("password");
+
+        overlay.style.display = "none";
+        loginPopup.style.display = "none";
+
+        // 重置输入框
+        usernameInput.value = "";
+        passwordInput.value = "";
+    }
+</script>
+
+   <script type="text/javascript" src="http://127.0.0.1:8080/js/login.js"></script>
+   <script type="text/javascript" src="http://127.0.0.1:8080/js/success.js"></script>
+<script type="text/javascript" src="http://127.0.0.1:8080/js/news.js"></script>
+</body>
+</head>
+</html>
